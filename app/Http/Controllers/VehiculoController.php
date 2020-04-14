@@ -14,6 +14,7 @@ class VehiculoController extends Controller
      */
     public function index()
     {
+        if (!$request->ajax()) return redirect('/');
         $vehiculos = Vehiculo::all();
         return $vehiculos;
     }
@@ -36,6 +37,7 @@ class VehiculoController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->ajax()) return redirect('/');
         $request->validate([
             'placa'=>'required',
             'marca'=>'required',
@@ -61,6 +63,7 @@ class VehiculoController extends Controller
      */
     public function show($id)
     {
+        if (!$request->ajax()) return redirect('/');
         $vehiculo = Vehiculo::find($id);
         return $vehiculo;
     }
@@ -85,6 +88,7 @@ class VehiculoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!$request->ajax()) return redirect('/');
         $vehiculo = Vehiculo::findOrFail($id);
         if (!is_null($request->placa)){
             $vehiculo->placa = $request->placa;
@@ -112,6 +116,7 @@ class VehiculoController extends Controller
      */
     public function destroy($id)
     {
+        if (!$request->ajax()) return redirect('/');
         $vehiculo = Vehiculo::find($id);
         if ($vehiculo){
             $destroy = Vehiculo::destroy($id);
@@ -123,6 +128,7 @@ class VehiculoController extends Controller
     }
 
     public function desactivar($request){
+        if (!$request->ajax()) return redirect('/');
         $vehiculo = Vehiculo::find($request->id)->personas()->where('activo',1)->get()->first();
         if (!is_null($vehiculo)){
             $vehiculo->pivot->activo = 0;

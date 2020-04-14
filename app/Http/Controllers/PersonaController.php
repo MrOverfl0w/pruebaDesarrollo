@@ -36,6 +36,7 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->ajax()) return redirect('/');
         $request->validate([
             'identificacion'=>'required',
             'nombre'=>'required',
@@ -131,6 +132,7 @@ class PersonaController extends Controller
      */
     public function destroy($id)
     {
+        if (!$request->ajax()) return redirect('/');
         $persona = Persona::find($id);
         if ($persona){
             $destroy = Persona::destroy($id);
