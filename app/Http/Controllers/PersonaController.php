@@ -36,7 +36,6 @@ class PersonaController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $request->validate([
             'identificacion'=>'required',
             'nombre'=>'required',
@@ -132,7 +131,6 @@ class PersonaController extends Controller
      */
     public function destroy($id)
     {
-        if (!$request->ajax()) return redirect('/');
         $persona = Persona::find($id);
         if ($persona){
             $destroy = Persona::destroy($id);
@@ -141,5 +139,16 @@ class PersonaController extends Controller
             return response('Success', 200);
         }
         return response('Failed', 404);
+    }
+
+    public function getCarro($id)
+    {
+        $persona = Persona::find($id);
+        $vehiculos = $persona->vehiculos()->get();
+        foreach ($vehiculos as $vehiculo) {
+            if ($vehiculo->pivot->activo==1){
+                return $vehiculo;
+            }
+        }
     }
 }
